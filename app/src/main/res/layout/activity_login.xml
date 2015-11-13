@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_login"
+    android:weightSum="1">
+    <TextView
+        android:id="@+id/login_tv_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:textColor="@android:color/white"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        android:clickable="true"
+        android:textAllCaps="true"
+        android:gravity="top|center" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="0.38"
+        android:padding="50dp">
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="455dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_horizontal"
+            android:weightSum="1">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:id="@+id/logo_im"
+                android:background="@drawable/edna_chocolate_logo"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:contentDescription="Edna Logo"
+                android:layout_weight="0.13" />
+
+            <TextView
+                android:layout_width="170dp"
+                android:layout_height="88dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="EI&amp;M Sales Force Automation Tab"
+                android:textColor="#FFFFFF"
+                android:textSize="30dp"
+                android:id="@+id/textView3"
+                android:textStyle="bold"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.46" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="444dp"
+            android:layout_height="541dp"
+
+            android:background="@drawable/login_dialogbox"
+            android:weightSum="1"
+            android:layout_gravity="left|center_horizontal"
+            android:layout_weight="0.56">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="50dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="15dp"
+                android:weightSum="1"
+                android:layout_weight="0.81"
+                android:paddingLeft="20dp"
+                android:paddingTop="20dp"
+                android:paddingRight="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Welcome !"
+                    android:id="@+id/textView4"
+                    android:textColor="#ffffff"
+                    android:textSize="30dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Please enter your username and password"
+                    android:id="@+id/textView5"
+                    android:layout_gravity="left|center_horizontal"
+                    android:textColor="#ffffff"
+                    android:textSize="18dp" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/text_email_address"
+                    android:background="#ffffff"
+                    android:layout_weight="0.15"
+                    android:hint="User Name"
+                    android:textSize="25dp"
+                    android:padding="5dp"
+                    android:inputType="textNoSuggestions"
+                    android:text="hello002@gmail.com"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:ems="10"
+                    android:id="@+id/text_password"
+                    android:background="#ffffff"
+                    android:layout_weight="0.15"
+                    android:hint="Password"
+                    android:padding="5dp"
+                    android:textSize="25dp"
+                    android:text="CSS1234@hello"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="20dp" />
+
+                <Button
+                    android:textAllCaps="false"
+                    android:textSize="30dp"
+                    android:textStyle="normal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Sign In"
+                    android:id="@+id/btn_sign_in"
+                    android:background="#771606"
+                    android:textColor="#ffffff"
+                    android:layout_marginTop="20dp"
+                    android:padding="5dp"
+                    android:layout_weight="0.2" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="- Oh! I forgot my password -"
+                    android:id="@+id/textView6"
+                    android:textColor="#ffffff"
+                    android:gravity="center_horizontal"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:textSize="18dp"
+                    android:layout_marginTop="20dp" />
+
+                <Button
+                    android:textAllCaps="false"
+                    android:textSize="20dp"
+                    android:textStyle="normal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Request New Password"
+                    android:id="@+id/login_btn_new_pw"
+                    android:background="#771606"
+                    android:textColor="#ffffff"
+                    android:padding="5dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="0.2" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="444dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_horizontal"
+            android:background="@drawable/gateway_1">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_horizontal"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="15dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="5dp"
+                android:paddingRight="20dp"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Change Gateway"
+                    android:textColor="#ffffff"
+                    android:id="@+id/textView7"
+                    android:layout_marginTop="15dp"
+                    android:textSize="30dp" />
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:id="@+id/server_list_spinner"
+                    android:visibility="invisible"
+                    android:spinnerMode="dropdown"
+                    android:animationCache="false"
+                    android:background="#ffffff"
+
+                    android:padding="3dp"
+                    android:layout_marginTop="5dp" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/PIN"
+                    android:background="#ffffff"
+                    android:hint="Enter PIN"
+                    android:layout_weight="0.15"
+                    android:padding="5dp"
+                    android:textSize="25dp"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="50dp" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
