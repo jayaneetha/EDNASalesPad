@@ -13,15 +13,13 @@ import com.colombosoft.ednasalespad.libs.ProgressWheel;
  */
 public class CustomProgressDialog extends Dialog {
 
-    private TextView mProgressText;
-    private ProgressWheel mProgressWheel;
-    private Context mContext;
+    private TextView tvProgressText;
+    private ProgressWheel progressWheel;
+    private Context context;
 
     public CustomProgressDialog(Context context) {
-
         super(context, false, null);
-        this.mContext = context;
-
+        this.context = context;
     }
 
     @Override
@@ -29,26 +27,26 @@ public class CustomProgressDialog extends Dialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_custom_progress);
 
-        mProgressText = (TextView)findViewById(R.id.progress_dialog_progress_txt);
-        mProgressWheel = (ProgressWheel)findViewById(R.id.progress_dialog_progress_wheel);
+        tvProgressText = (TextView)findViewById(R.id.progress_dialog_progress_txt);
+        progressWheel = (ProgressWheel)findViewById(R.id.progress_dialog_progress_wheel);
 
-        mProgressWheel.setBarColor(mContext.getResources().getColor(R.color.light_400));
-        mProgressWheel.spin();
+        progressWheel.setBarColor(context.getResources().getColor(R.color.light_400));
+        progressWheel.spin();
 
     }
 
     public void setMessage(String message) {
-        if(mProgressText != null) {
-            mProgressText.setText(message);
+        if(tvProgressText != null) {
+            tvProgressText.setText(message);
         }
     }
 
     public void setProgress(float progress){
-        mProgressWheel.setProgress(progress);
+        progressWheel.setProgress(progress);
     }
 
     public void setIndeterminate(){
-        mProgressWheel.spin();
+        progressWheel.spin();
     }
 
 

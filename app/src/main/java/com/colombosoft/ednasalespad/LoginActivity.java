@@ -13,7 +13,9 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.colombosoft.ednasalespad.db_transaction.StoreAttendance;
 import com.colombosoft.ednasalespad.db_transaction.StoreDealer;
 import com.colombosoft.ednasalespad.db_transaction.StoreDealerClass;
 import com.colombosoft.ednasalespad.db_transaction.StoreProduct;
@@ -24,8 +26,8 @@ import com.colombosoft.ednasalespad.db_transaction.StoreProductLevel;
 import com.colombosoft.ednasalespad.db_transaction.StoreProductUnit;
 import com.colombosoft.ednasalespad.db_transaction.StoreRoute;
 import com.colombosoft.ednasalespad.db_transaction.StoreUser;
-import com.colombosoft.ednasalespad.db_transaction.StoreAttendance;
 import com.colombosoft.ednasalespad.dialog.CustomProgressDialog;
+import com.colombosoft.ednasalespad.helper_model.UserLoginError;
 import com.colombosoft.ednasalespad.helper_model.UserLoginSuccess;
 import com.colombosoft.ednasalespad.helpers.DatabaseHelper;
 import com.colombosoft.ednasalespad.helpers.NetworkFunction;
@@ -39,7 +41,6 @@ import com.colombosoft.ednasalespad.model.ProductCategory;
 import com.colombosoft.ednasalespad.model.ProductLevel;
 import com.colombosoft.ednasalespad.model.ProductUnit;
 import com.colombosoft.ednasalespad.model.Route;
-import com.colombosoft.ednasalespad.model.User;
 import com.colombosoft.ednasalespad.url.BaseURL;
 import com.colombosoft.ednasalespad.utilities.NetworkUtility;
 import com.colombosoft.ednasalespad.utilities.RequestType;
@@ -81,7 +82,7 @@ public class LoginActivity extends Activity {
         //databaseHelper = DatabaseHelper.getInstance(LoginActivity.this);
 
         mEmailText = (EditText) findViewById(R.id.text_email_address);
-        mPasswordText = (EditText)findViewById(R.id.text_password);
+        mPasswordText = (EditText) findViewById(R.id.text_password);
 
         mSignInButton = (Button) findViewById(R.id.btn_sign_in);
         mSignInButton.setOnClickListener(new View.OnClickListener() {
@@ -89,23 +90,24 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                if(mEmailText.getText().toString().equals("")){
+                if (mEmailText.getText().toString().equals("")) {
 
                     showErrorText("Please enter a Email");
                     mEmailText.requestFocus();
 
-                } else if(mPasswordText.getText().toString().equals("")){
+                } else if (mPasswordText.getText().toString().equals("")) {
 
                     showErrorText("Please enter a password");
                     mPasswordText.requestFocus();
 
                 } else {
-                    if(NetworkUtility.isNetworkAvailable(LoginActivity.this)){
+                    if (NetworkUtility.isNetworkAvailable(LoginActivity.this)) {
 
-                        new AuthenticateProcess().execute(mEmailText.getText().toString(),mPasswordText.getText().toString());
+                        new AuthenticateProcess().execute(mEmailText.getText().toString(), mPasswordText.getText().toString());
 
-                    }else {
-                        showErrorText("PLEASE ENABLE INTERNET ");
+                    } else {
+                        //showErrorText("PLEASE ENABLE INTERNET ");
+                        Toast.makeText(LoginActivity.this, "PLEASE ENABLE INTERNET", Toast.LENGTH_LONG).show();
                     }
                 }
 
@@ -114,7 +116,7 @@ public class LoginActivity extends Activity {
 
     }
 
-    private void showErrorText(String errorMessage){
+    private void showErrorText(String errorMessage) {
 
         mErrorMessage.setTranslationY(500);
         mErrorMessage.setText(errorMessage);
@@ -125,10 +127,12 @@ public class LoginActivity extends Activity {
 
     }
 
-    private class AuthenticateProcess extends AsyncTask<String , Void , Boolean>{
+    private class AuthenticateProcess extends AsyncTask<String, Void, Boolean> {
 
+        Gson gson = new Gson();
         private CustomProgressDialog mWaitingMessage;
         private List<String> mErrorList = new ArrayList<String>();
+        private String loginJSONResult;
 
         @Override
         protected void onPreExecute() {
@@ -144,118 +148,166 @@ public class LoginActivity extends Activity {
         @Override
         protected Boolean doInBackground(String... params) {
 
-            if(NetworkUtility.isNetworkAvailable(LoginActivity.this)){
+            if (NetworkUtility.isNetworkAvailable(LoginActivity.this)) {
 
-                try{
+                try {
 
-                    String urlParams = "grant_type="+
-                                        URLEncoder.encode("password","UTF-8")+
-                                        "&username="+
-                                        URLEncoder.encode(params[0],"UTF-8")+
-                                        "&password="+
-                                        URLEncoder.encode(params[1],"UTF-8");
+                    String urlParams = "grant_type=" +
+                            URLEncoder.encode("password", "UTF-8") +
+                            "&username=" +
+                            URLEncoder.encode(params[0], "UTF-8") +
+                            "&password=" +
+                            URLEncoder.encode(params[1], "UTF-8");
 
                     NetworkFunction networkFunction = new NetworkFunction();
 
-                    String loginJSONResult = networkFunction.userAuthentication(BaseURL.AUTHENICATION_URL ,
-                                                                                RequestType.POST_REQUEST,
-                                                                                urlParams);
+                    loginJSONResult = networkFunction.userAuthentication(BaseURL.AUTHENICATION_URL,
+                            RequestType.POST_REQUEST,
+                            urlParams);
 
                     JSONObject loginJSONObject = new JSONObject(loginJSONResult);
 
-                    if(loginJSONObject.has("access_token")){
+                    if (loginJSONObject.has("access_token")) {
 
-                        Gson gson = new Gson();
 
                         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(LoginActivity.this);
                         SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mWaitingMessage.setMessage("Authenticated\nDownloading Data...");
+                            }
+                        });
 
                         // insert user data to db
                         UserLoginSuccess user = gson.fromJson(loginJSONResult, UserLoginSuccess.class);
-                        new StoreUser().storeUserInDB(sqLiteDatabase,user);
+                        new StoreUser().storeUserInDB(sqLiteDatabase, user);
 
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mWaitingMessage.setMessage("Authenticated\nDownloading Routes...");
+                            }
+                        });
                         // download all routes
-                        String routeJSONString =  networkFunction.sendGETRequestToServer(BaseURL.BASE_URL + "Routes", RequestType.GET_REQUEST);
-                        Type routeType = new TypeToken<ArrayList<Route>>(){}.getType();
-                        List<Route> routesList = new Gson().fromJson(routeJSONString, routeType);
+                        String routeJSONString = networkFunction.sendGETRequestToServer(BaseURL.BASE_URL + "Routes", RequestType.GET_REQUEST);
+                        Type routeType = new TypeToken<ArrayList<Route>>() {
+                        }.getType();
+                        List<Route> routesList = gson.fromJson(routeJSONString, routeType);
                         new StoreRoute().storeRouteListInDB(sqLiteDatabase, routesList);
 
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mWaitingMessage.setMessage("Authenticated\nDownloading Dealers...");
+                            }
+                        });
                         // download all dealers
                         String dealerJSONString = networkFunction.sendGETRequestToServer(BaseURL.BASE_URL + "Dealers", RequestType.GET_REQUEST);
-                        Type dealerType = new TypeToken<ArrayList<Dealer>>(){}.getType();
-                        List<Dealer> dealersList = new Gson().fromJson(dealerJSONString, dealerType);
+                        Type dealerType = new TypeToken<ArrayList<Dealer>>() {
+                        }.getType();
+                        List<Dealer> dealersList = gson.fromJson(dealerJSONString, dealerType);
                         new StoreDealer().storeDealerListInDB(sqLiteDatabase, dealersList);
+
 
                         // download all dealer class
                         String dealerClassJSONString = networkFunction.sendGETRequestToServer(BaseURL.BASE_URL + "DealerClasses", RequestType.GET_REQUEST);
-                        Type dealerClassType = new TypeToken<ArrayList<DealerClass>>(){}.getType();
-                        List<DealerClass> dealerClassList = new Gson().fromJson(dealerClassJSONString, dealerClassType);
+                        Type dealerClassType = new TypeToken<ArrayList<DealerClass>>() {
+                        }.getType();
+                        List<DealerClass> dealerClassList = gson.fromJson(dealerClassJSONString, dealerClassType);
                         new StoreDealerClass().storeDealerClassListInDB(sqLiteDatabase, dealerClassList);
 
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mWaitingMessage.setMessage("Authenticated\nDownloading Attendance Details...");
+                            }
+                        });
                         // download all attendance
 
                         String attendenceJSONString = networkFunction.userAttendance(BaseURL.BASE_URL + "Attendances",
                                 RequestType.GET_REQUEST,
                                 user.getAccess_token());
-                        Type attendanceType = new TypeToken<ArrayList<Attendance>>(){}.getType();
-                        List<Attendance> attendanceList = new Gson().fromJson(attendenceJSONString, attendanceType);
+                        Type attendanceType = new TypeToken<ArrayList<Attendance>>() {
+                        }.getType();
+                        List<Attendance> attendanceList = gson.fromJson(attendenceJSONString, attendanceType);
                         List<Attendance> attendances = new ArrayList<Attendance>();
-                        for(Attendance attendanceInner : attendanceList){
+                        for (Attendance attendanceInner : attendanceList) {
                             attendanceInner.setIsSync(true);
                             attendances.add(attendanceInner);
                         }
                         new StoreAttendance().storeDealerListInDB(sqLiteDatabase, attendances);
 
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mWaitingMessage.setMessage("Authenticated\nDownloading Products...");
+                            }
+                        });
                         // download all products
 
                         String productJSONString = networkFunction.sendGETRequestToServer(BaseURL.BASE_URL + "Products", RequestType.GET_REQUEST);
-                        Type productType = new TypeToken<ArrayList<Product>>(){}.getType();
-                        List<Product> productList = new Gson().fromJson(productJSONString, productType);
+                        Type productType = new TypeToken<ArrayList<Product>>() {
+                        }.getType();
+                        List<Product> productList = gson.fromJson(productJSONString, productType);
                         new StoreProduct().storeProductListInDB(sqLiteDatabase, productList);
+
 
                         // dowload all product batch
 
                         String productBatchJSONString = networkFunction.sendGETRequestToServer(BaseURL.BASE_URL + "ProductBatches", RequestType.GET_REQUEST);
-                        Type productBatchType = new TypeToken<ArrayList<ProductBatch>>(){}.getType();
-                        List<ProductBatch> productBatchList = new Gson().fromJson(productBatchJSONString, productBatchType);
+                        Type productBatchType = new TypeToken<ArrayList<ProductBatch>>() {
+                        }.getType();
+                        List<ProductBatch> productBatchList = gson.fromJson(productBatchJSONString, productBatchType);
                         new StoreProductBatch().storeProductBatchListInDB(sqLiteDatabase, productBatchList);
+
 
                         // download all product brands
 
                         String productBrandJSONString = networkFunction.sendGETRequestToServer(BaseURL.BASE_URL + "ProductBrands", RequestType.GET_REQUEST);
-                        Type productBrandType = new TypeToken<ArrayList<ProductBrand>>(){}.getType();
-                        List<ProductBrand> productBrandList = new Gson().fromJson(productBrandJSONString, productBrandType);
+                        Type productBrandType = new TypeToken<ArrayList<ProductBrand>>() {
+                        }.getType();
+                        List<ProductBrand> productBrandList = gson.fromJson(productBrandJSONString, productBrandType);
                         new StoreProductBrand().storeDealerClassListInDB(sqLiteDatabase, productBrandList);
+
 
                         // download all product category
 
                         String productCategoryJSONString = networkFunction.sendGETRequestToServer(BaseURL.BASE_URL + "ProductCategories", RequestType.GET_REQUEST);
-                        Type productCategoryType = new TypeToken<ArrayList<ProductCategory>>(){}.getType();
-                        List<ProductCategory> productCategoryList = new Gson().fromJson(productCategoryJSONString, productCategoryType);
+                        Type productCategoryType = new TypeToken<ArrayList<ProductCategory>>() {
+                        }.getType();
+                        List<ProductCategory> productCategoryList = gson.fromJson(productCategoryJSONString, productCategoryType);
                         new StoreProductCategory().storeProductCategoryListInDB(sqLiteDatabase, productCategoryList);
+
 
                         // download all product levels
 
                         String productLevelJSONString = networkFunction.sendGETRequestToServer(BaseURL.BASE_URL + "ProductLevels", RequestType.GET_REQUEST);
-                        Type productLevelType = new TypeToken<ArrayList<ProductLevel>>(){}.getType();
-                        List<ProductLevel> productLevelList = new Gson().fromJson(productLevelJSONString, productLevelType);
+                        Type productLevelType = new TypeToken<ArrayList<ProductLevel>>() {
+                        }.getType();
+                        List<ProductLevel> productLevelList = gson.fromJson(productLevelJSONString, productLevelType);
                         new StoreProductLevel().storeProductListInDB(sqLiteDatabase, productLevelList);
+
 
                         // download all product unites
 
                         String productUnitJSONString = networkFunction.sendGETRequestToServer(BaseURL.BASE_URL + "ProductUnits", RequestType.GET_REQUEST);
-                        Type productUnitType = new TypeToken<ArrayList<ProductUnit>>(){}.getType();
-                        List<ProductUnit> productUnitList = new Gson().fromJson(productUnitJSONString, productUnitType);
+                        Type productUnitType = new TypeToken<ArrayList<ProductUnit>>() {
+                        }.getType();
+                        List<ProductUnit> productUnitList = gson.fromJson(productUnitJSONString, productUnitType);
                         new StoreProductUnit().storeProductUnitListInDB(sqLiteDatabase, productUnitList);
 
 
                         return true;
 
-                    }else {
-                        Log.d(TAG,loginJSONResult);
+                    } else {
+
+                        UserLoginError userLoginError = gson.fromJson(loginJSONResult, UserLoginError.class);
+                        Log.d(TAG, loginJSONResult);
                         return false;
+
                     }
-                }catch (IOException e){
+                } catch (IOException e) {
 
                     Log.e(TAG, e.toString());
                     return false;
@@ -264,30 +316,25 @@ public class LoginActivity extends Activity {
                     e.printStackTrace();
                     return false;
                 }
-            }else {
-
-                return false;
-
             }
+
+            return false;
+
         }
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
-            if(aBoolean){
+            if (aBoolean) {
 
                 Intent intent = new Intent(LoginActivity.this, AgentAttendanceActivity.class);
                 startActivity(intent);
 
-            }else {
+            } else {
+
                 if (mWaitingMessage.isShowing()) {
-
                     mWaitingMessage.dismiss();
-
                 }
-                //mErrorMessage.setTranslationY(500);
-                //mErrorMessage.setText("Email or Password is wrong");
-                //mErrorMessage.setVisibility(View.VISIBLE);
-
+                Toast.makeText(LoginActivity.this, "The user name or password is incorrect.", Toast.LENGTH_LONG).show();
             }
         }
     }

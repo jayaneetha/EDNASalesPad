@@ -59,6 +59,16 @@ public class NetworkFunction {
 
                 response = stringBuilder.toString();
                 //Log.i(TAG, "Server Response : \n" + response);
+//            case 400:
+//                BufferedReader errorBufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+//                StringBuilder stringErrorBuilder = new StringBuilder();
+//                String line1;
+//                while ((line1 = errorBufferedReader.readLine()) != null) {
+//                    stringErrorBuilder.append(line1).append("\n");
+//                }
+//                errorBufferedReader.close();
+//
+//                response = stringErrorBuilder.toString();
         }
         connection.disconnect();
         return response;
@@ -71,7 +81,7 @@ public class NetworkFunction {
         DataOutputStream wr = new DataOutputStream (connection.getOutputStream ());
         wr.writeBytes(jsonString);
         wr.flush();
-        wr.close();
+        //wr.close();
 
         return serverResponse(connection);
     }
