@@ -19,7 +19,8 @@ public class AttendanceTable {
                                                     + "Lattitude" + "  double, "
                                                     + "Longtude" + " double, "
                                                     + "DateAndTime" + " varchar(32), "
-                                                    + "Type" + " int(32)"
+                                                    + "Type" + " int(32), "
+                                                    + "IsSync" + " boolean"
                                                     + ")";
 
 
@@ -31,6 +32,7 @@ public class AttendanceTable {
         attendenceInsert.put("Longtude", attendance.getLocation().getLong());
         attendenceInsert.put("DateAndTime", attendance.getDateAndTime());
         attendenceInsert.put("Type", attendance.getType());
+        attendenceInsert.put("IsSync",attendance.isSync());
 
         databaseInstance.insert(ATTENDANCE_TABLE_NAME, null, attendenceInsert);
 
