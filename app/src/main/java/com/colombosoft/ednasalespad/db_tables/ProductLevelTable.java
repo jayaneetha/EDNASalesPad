@@ -1,5 +1,11 @@
 package com.colombosoft.ednasalespad.db_tables;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.colombosoft.ednasalespad.model.ProductBrand;
+import com.colombosoft.ednasalespad.model.ProductLevel;
+
 /**
  * Created by DragonSlayer on 11/5/2015.
  */
@@ -17,4 +23,21 @@ public class ProductLevelTable {
                                                             + "LastModified" + " varchar(32), "
                                                             + "LastModifiedBy" + " varchar(32) "
                                                             + ")";
+
+
+    public SQLiteDatabase insertProductLavel(SQLiteDatabase databaseInstance, ProductLevel productLevel){
+
+        ContentValues productLevelInsert = new ContentValues();
+        productLevelInsert.put("ProductLevelId", productLevel.getProductLevelId());
+        productLevelInsert.put("ProductLevelName",productLevel.getProductLevelName());
+        productLevelInsert.put("ProductSubCategory", productLevel.getProductSubCategory());
+        productLevelInsert.put("AddedDate", productLevel.getAddedDate());
+        productLevelInsert.put("AddedBy", productLevel.getAddedBy());
+        productLevelInsert.put("LastModified", productLevel.getLastModified());
+        productLevelInsert.put("LastModifiedBy", productLevel.getLastModifiedBy());
+        databaseInstance.insert(PRODUCT_LEVEL_TABLE_NAME , null, productLevelInsert);
+
+        return databaseInstance;
+
+    }
 }

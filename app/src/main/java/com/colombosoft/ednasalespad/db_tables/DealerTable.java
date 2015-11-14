@@ -24,18 +24,20 @@ public class DealerTable {
                                                         + "GNDivision" + " varchar(32), "
                                                         + "DealerClassId" + " integer(32), "
                                                         + "RouteId" + " integer(32), "
-                                                        + "OpenBalance" + " double(32), "
+                                                        + "OpenBalance" + " double, "
                                                         + "ContactPerson" + " varchar(32), "
                                                         + "LandNumber" + " varchar(32), "
                                                         + "MobileNumber" + " varchar(32), "
-                                                        + "Status" + " boolean(32), "
+                                                        + "Status" + " boolean, "
                                                         + "AccountOpendate" + " varchar(32), "
-                                                        + "Blocked" + " boolean(32), "
-                                                        + "CreditLimit" + " double(32), "
-                                                        + "OutstandingBalance" + " double(32), "
+                                                        + "Blocked" + " boolean, "
+                                                        + "CreditLimit" + " double, "
+                                                        + "OutstandingBalance" + " double, "
                                                         + "Comments" + " varchar(32), "
                                                         + "ShowcaseGiven" + " boolean, "
                                                         + "ShowcaseGivendate" + " varchar(32), "
+                                                        + "AgentLocation_Lat" + " double, "
+                                                        + "AgentLocation_Long" + " double, "
                                                         + "AddedDate" + " varchar(32), "
                                                         + "AddedBy" + " varchar(32), "
                                                         + "LastModified" + " varchar(32), "
@@ -65,6 +67,8 @@ public class DealerTable {
         routeInsert.put("Comments", route.getComments());
         routeInsert.put("ShowcaseGiven", route.isShowcaseGiven());
         routeInsert.put("ShowcaseGivendate", route.getShowcaseGivendate());
+        routeInsert.put("AgentLocation_Lat", route.getGeoCordinates().getLat());
+        routeInsert.put("AgentLocation_Long", route.getGeoCordinates().getLong());
         routeInsert.put("AddedDate", route.getAddedDate());
         routeInsert.put("AddedBy", route.getAddedBy());
         routeInsert.put("LastModified", route.getLastModified());

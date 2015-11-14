@@ -2,6 +2,7 @@ package com.colombosoft.ednasalespad.helpers;
 
 import android.util.Log;
 
+import com.colombosoft.ednasalespad.model.User;
 import com.colombosoft.ednasalespad.utilities.RequestType;
 
 import java.io.BufferedReader;
@@ -95,6 +96,19 @@ public class NetworkFunction {
         wr.writeBytes(jsonString);
         wr.flush();
         wr.close();
+
+        return serverResponse(innerConnection);
+
+    }
+
+    public String userAttendance (String URL, String requestMethod , String userToken) throws IOException{
+
+        URL postURL = new URL(URL);
+        HttpURLConnection innerConnection = (HttpURLConnection) postURL.openConnection();
+        innerConnection.setRequestMethod(requestMethod);
+        innerConnection.setRequestProperty("Authorization", "Bearer "+userToken);
+        innerConnection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
+        //innerConnection.setDoOutput(true);
 
         return serverResponse(innerConnection);
 

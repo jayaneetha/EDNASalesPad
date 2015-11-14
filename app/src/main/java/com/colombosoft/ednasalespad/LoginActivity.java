@@ -15,13 +15,29 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.colombosoft.ednasalespad.db_transaction.StoreDealer;
+import com.colombosoft.ednasalespad.db_transaction.StoreDealerClass;
+import com.colombosoft.ednasalespad.db_transaction.StoreProduct;
+import com.colombosoft.ednasalespad.db_transaction.StoreProductBatch;
+import com.colombosoft.ednasalespad.db_transaction.StoreProductBrand;
+import com.colombosoft.ednasalespad.db_transaction.StoreProductCategory;
+import com.colombosoft.ednasalespad.db_transaction.StoreProductLevel;
+import com.colombosoft.ednasalespad.db_transaction.StoreProductUnit;
 import com.colombosoft.ednasalespad.db_transaction.StoreRoute;
 import com.colombosoft.ednasalespad.db_transaction.StoreUser;
+import com.colombosoft.ednasalespad.db_transaction.StoreAttendance;
 import com.colombosoft.ednasalespad.dialog.CustomProgressDialog;
 import com.colombosoft.ednasalespad.helper_model.UserLoginSuccess;
 import com.colombosoft.ednasalespad.helpers.DatabaseHelper;
 import com.colombosoft.ednasalespad.helpers.NetworkFunction;
+import com.colombosoft.ednasalespad.model.Attendance;
 import com.colombosoft.ednasalespad.model.Dealer;
+import com.colombosoft.ednasalespad.model.DealerClass;
+import com.colombosoft.ednasalespad.model.Product;
+import com.colombosoft.ednasalespad.model.ProductBatch;
+import com.colombosoft.ednasalespad.model.ProductBrand;
+import com.colombosoft.ednasalespad.model.ProductCategory;
+import com.colombosoft.ednasalespad.model.ProductLevel;
+import com.colombosoft.ednasalespad.model.ProductUnit;
 import com.colombosoft.ednasalespad.model.Route;
 import com.colombosoft.ednasalespad.model.User;
 import com.colombosoft.ednasalespad.url.BaseURL;
@@ -158,18 +174,80 @@ public class LoginActivity extends Activity {
                         UserLoginSuccess user = gson.fromJson(loginJSONResult, UserLoginSuccess.class);
                         new StoreUser().storeUserInDB(sqLiteDatabase,user);
 
+                        // download all routes
                         String routeJSONString =  networkFunction.sendGETRequestToServer(BaseURL.BASE_URL + "Routes", RequestType.GET_REQUEST);
                         Type routeType = new TypeToken<ArrayList<Route>>(){}.getType();
                         List<Route> routesList = new Gson().fromJson(routeJSONString, routeType);
                         new StoreRoute().storeRouteListInDB(sqLiteDatabase, routesList);
-                        Log.d(TAG, "************* end routes ****************");
 
-                        Log.d(TAG,"************** start dealer **************");
+                        // download all dealers
                         String dealerJSONString = networkFunction.sendGETRequestToServer(BaseURL.BASE_URL + "Dealers", RequestType.GET_REQUEST);
                         Type dealerType = new TypeToken<ArrayList<Dealer>>(){}.getType();
                         List<Dealer> dealersList = new Gson().fromJson(dealerJSONString, dealerType);
                         new StoreDealer().storeDealerListInDB(sqLiteDatabase, dealersList);
-                        Log.d(TAG, "************* end dealer ****************");
+
+                        // download all dealer class
+                        String dealerClassJSONString = networkFunction.sendGETRequestToServer(BaseURL.BASE_URL + "DealerClasses", RequestType.GET_REQUEST);
+                        Type dealerClassType = new TypeToken<ArrayList<DealerClass>>(){}.getType();
+                        List<DealerClass> dealerClassList = new Gson().fromJson(dealerClassJSONString, dealerClassType);
+                        new StoreDealerClass().storeDealerClassListInDB(sqLiteDatabase, dealerClassList);
+
+                        // download all attendance
+
+                        String attendenceJSONString = networkFunction.userAttendance(BaseURL.BASE_URL + "Attendances",
+                                RequestType.GET_REQUEST,
+                                user.getAccess_token());
+                        Type attendanceType = new TypeToken<ArrayList<Attendance>>(){}.getType();
+                        List<Attendance> attendanceList = new Gson().fromJson(attendenceJSONString, attendanceType);
+                        List<Attendance> attendances = new ArrayList<Attendance>();
+                        for(Attendance attendanceInner : attendanceList){
+                            attendanceInner.setIsSync(true);
+                            attendances.add(attendanceInner);
+                        }
+                        new StoreAttendance().storeDealerListInDB(sqLiteDatabase, attendances);
+
+                        // download all products
+
+                        String productJSONString = networkFunction.sendGETRequestToServer(BaseURL.BASE_URL + "Products", RequestType.GET_REQUEST);
+                        Type productType = new TypeToken<ArrayList<Product>>(){}.getType();
+                        List<Product> productList = new Gson().fromJson(productJSONString, productType);
+                        new StoreProduct().storeProductListInDB(sqLiteDatabase, productList);
+
+                        // dowload all product batch
+
+                        String productBatchJSONString = networkFunction.sendGETRequestToServer(BaseURL.BASE_URL + "ProductBatches", RequestType.GET_REQUEST);
+                        Type productBatchType = new TypeToken<ArrayList<ProductBatch>>(){}.getType();
+                        List<ProductBatch> productBatchList = new Gson().fromJson(productBatchJSONString, productBatchType);
+                        new StoreProductBatch().storeProductBatchListInDB(sqLiteDatabase, productBatchList);
+
+                        // download all product brands
+
+                        String productBrandJSONString = networkFunction.sendGETRequestToServer(BaseURL.BASE_URL + "ProductBrands", RequestType.GET_REQUEST);
+                        Type productBrandType = new TypeToken<ArrayList<ProductBrand>>(){}.getType();
+                        List<ProductBrand> productBrandList = new Gson().fromJson(productBrandJSONString, productBrandType);
+                        new StoreProductBrand().storeDealerClassListInDB(sqLiteDatabase, productBrandList);
+
+                        // download all product category
+
+                        String productCategoryJSONString = networkFunction.sendGETRequestToServer(BaseURL.BASE_URL + "ProductCategories", RequestType.GET_REQUEST);
+                        Type productCategoryType = new TypeToken<ArrayList<ProductCategory>>(){}.getType();
+                        List<ProductCategory> productCategoryList = new Gson().fromJson(productCategoryJSONString, productCategoryType);
+                        new StoreProductCategory().storeProductCategoryListInDB(sqLiteDatabase, productCategoryList);
+
+                        // download all product levels
+
+                        String productLevelJSONString = networkFunction.sendGETRequestToServer(BaseURL.BASE_URL + "ProductLevels", RequestType.GET_REQUEST);
+                        Type productLevelType = new TypeToken<ArrayList<ProductLevel>>(){}.getType();
+                        List<ProductLevel> productLevelList = new Gson().fromJson(productLevelJSONString, productLevelType);
+                        new StoreProductLevel().storeProductListInDB(sqLiteDatabase, productLevelList);
+
+                        // download all product unites
+
+                        String productUnitJSONString = networkFunction.sendGETRequestToServer(BaseURL.BASE_URL + "ProductUnits", RequestType.GET_REQUEST);
+                        Type productUnitType = new TypeToken<ArrayList<ProductUnit>>(){}.getType();
+                        List<ProductUnit> productUnitList = new Gson().fromJson(productUnitJSONString, productUnitType);
+                        new StoreProductUnit().storeProductUnitListInDB(sqLiteDatabase, productUnitList);
+
 
                         return true;
 
@@ -196,9 +274,8 @@ public class LoginActivity extends Activity {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             if(aBoolean){
-                //super.onPostExecute(aBoolean);
+
                 Intent intent = new Intent(LoginActivity.this, AgentAttendanceActivity.class);
-                //intent.putExtra(RequestCodes.KEY_STARTING_SEQUENCE, true);
                 startActivity(intent);
 
             }else {
@@ -207,16 +284,12 @@ public class LoginActivity extends Activity {
                     mWaitingMessage.dismiss();
 
                 }
+                //mErrorMessage.setTranslationY(500);
+                //mErrorMessage.setText("Email or Password is wrong");
+                //mErrorMessage.setVisibility(View.VISIBLE);
 
-                //Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                //intent.putExtra(RequestCodes.KEY_STARTING_SEQUENCE, true);
-                //startActivity(intent);
             }
-
-
         }
-
     }
-
 
 }

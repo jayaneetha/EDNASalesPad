@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.colombosoft.ednasalespad.db_tables.AttendanceTable;
 import com.colombosoft.ednasalespad.helpers.DatabaseHelper;
 import com.colombosoft.ednasalespad.helpers.NetworkFunction;
 import com.colombosoft.ednasalespad.libs.ProgressWheel;
@@ -74,15 +75,7 @@ public class AgentAttendanceActivity extends Activity {
 
         dbHandler = DatabaseHelper.getInstance(AgentAttendanceActivity.this);
 
-        //sharedPref = SharedPref.getInstance(MarkAttendanceActivity.this);
-
         networkFunctions = new NetworkFunction();
-
-        //isDayStarted = sharedPref.isDayStarted();
-
-        //int sessionId = sharedPref.getLocalSessionId();
-
-        //Attendance attendance = dbHandler.getAttendanceOfCurrentSession(sessionId);
 
         tvDate = (TextView) findViewById(R.id.mark_attendance_tv_date);
         tvTime = (TextView) findViewById(R.id.mark_attendance_tv_clock);
@@ -210,7 +203,24 @@ public class AgentAttendanceActivity extends Activity {
 //                attendance.setLoc(tvLocationAddressBegin.getText().toString());
 //                attendance.setLocalSession(sessionId);
 //                dbHandler.storeAttendance(attendance);
+                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(AgentAttendanceActivity.this);
 
+                Attendance attendance = new Attendance();
+
+                com.colombosoft.ednasalespad.model.Location location = new com.colombosoft.ednasalespad.model.Location();
+                location.setLong(finalLocation.getLongitude());
+                location.setLat(finalLocation.getLatitude());
+
+                Log.d(TAG, new Date().toString());
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.Sz");
+                Log.d(TAG, new Date().toString());
+
+                attendance.setLocation(location);
+                attendance.setDateAndTime(df.format(new Date()));
+                attendance.setType(1);
+
+                AttendanceTable attendanceTable = new AttendanceTable();
+                attendanceTable.insertAttendance(databaseHelper.getWritableDatabase(),attendance);
                 Intent intent = new Intent(AgentAttendanceActivity.this, RouteActivity.class);
                 startActivity(intent);
 
@@ -444,6 +454,8 @@ public class AgentAttendanceActivity extends Activity {
                         + ","
                         + String.valueOf(finalLocation.getLongitude())
                         + "&sensor=true", RequestType.GET_REQUEST);
+
+
 
                 if (response != null && response.length() > 0) {
                     JSONObject responseJSON = new JSONObject(response);

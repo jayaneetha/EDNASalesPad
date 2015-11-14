@@ -1,5 +1,12 @@
 package com.colombosoft.ednasalespad.db_tables;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.colombosoft.ednasalespad.model.Dealer;
+import com.colombosoft.ednasalespad.model.ProductBatch;
+import com.colombosoft.ednasalespad.model.ProductBrand;
+
 /**
  * Created by DragonSlayer on 11/5/2015.
  */
@@ -25,4 +32,29 @@ public class ProductBatchTable {
                                                             + "LastModified" + " varchar(32), "
                                                             + "LastModifiedBy" + " varchar(32) "
                                                             + ")";
+
+    public SQLiteDatabase insertProductBatch(SQLiteDatabase databaseInstance, ProductBatch batch){
+
+        ContentValues productBatchInsert = new ContentValues();
+        productBatchInsert.put("ProductBatchId", batch.getProductBatchId());
+        productBatchInsert.put("ShortCode",batch.getShortCode());
+        productBatchInsert.put("AgentPrice", batch.getAgentPrice());
+        productBatchInsert.put("DealerPrice", batch.getDealerPrice());
+        productBatchInsert.put("ConsumerPrice", batch.getConsumerPrice());
+        productBatchInsert.put("ProductExpirateTimeInMonths", batch.getProductExpirateTimeInMonths());
+        productBatchInsert.put("NoReturnDiscount", batch.getNoReturnDiscount());
+        productBatchInsert.put("ProductPoints", batch.getProductPoints());
+        productBatchInsert.put("ProductMargin", batch.getProductMargin());
+        productBatchInsert.put("ProductId", batch.getProductId());
+        productBatchInsert.put("AddedDate", batch.getAddedDate());
+        productBatchInsert.put("AddedBy", batch.getAddedBy());
+        productBatchInsert.put("LastModified", batch.getLastModified());
+        productBatchInsert.put("LastModifiedBy", batch.getLastModifiedBy());
+        databaseInstance.insert(PRODUCT_BATCH_TABLE_NAME , null, productBatchInsert);
+        return databaseInstance;
+
+    }
+
+
+
 }

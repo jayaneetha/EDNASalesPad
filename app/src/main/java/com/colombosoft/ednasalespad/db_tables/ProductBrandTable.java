@@ -1,5 +1,11 @@
 package com.colombosoft.ednasalespad.db_tables;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.colombosoft.ednasalespad.model.ProductBrand;
+import com.colombosoft.ednasalespad.model.ProductCategory;
+
 /**
  * Created by DragonSlayer on 11/5/2015.
  */
@@ -17,5 +23,21 @@ public class ProductBrandTable {
                                                                 + "LastModified" + " varchar(32), "
                                                                 + "LastModifiedBy" + " varchar(32) "
                                                                 + ")";
+
+    public SQLiteDatabase insertProductBrand(SQLiteDatabase databaseInstance, ProductBrand productBrand){
+
+        ContentValues productBrandInsert = new ContentValues();
+        productBrandInsert.put("ProductBrandId", productBrand.getProductBrandId());
+        productBrandInsert.put("ProductBrandName",productBrand.getProductBrandName());
+        productBrandInsert.put("ProductBrandShortCode", productBrand.getProductBrandShortCode());
+        productBrandInsert.put("AddedDate", productBrand.getAddedDate());
+        productBrandInsert.put("AddedBy", productBrand.getAddedBy());
+        productBrandInsert.put("LastModified", productBrand.getLastModified());
+        productBrandInsert.put("LastModifiedBy", productBrand.getLastModifiedBy());
+        databaseInstance.insert(PRODUCT_BRAND_TABLE_NAME , null, productBrandInsert);
+
+        return databaseInstance;
+
+    }
 
 }

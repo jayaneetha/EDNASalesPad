@@ -10,7 +10,8 @@ public class Attendance {
     private Location Location;
     private String DateAndTime;
     private int Type;
-    private String UserId;
+    //private String UserId;
+    private boolean IsSync;
 
     public Location getLocation() {
         return Location;
@@ -36,11 +37,19 @@ public class Attendance {
         Type = type;
     }
 
-    public String getUserId() {
-        return UserId;
+//    public String getUserId() {
+//        return UserId;
+//    }
+//
+//    public void setUserId(String userId) {
+//        UserId = userId;
+//    }
+
+    public boolean isSync() {
+        return IsSync;
     }
 
-    public void setUserId(String userId) {
-        UserId = userId;
+    public void setIsSync(boolean isSync) {
+        IsSync = isSync;
     }
 }
