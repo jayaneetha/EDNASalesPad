@@ -9,6 +9,17 @@ public class DealerImage {
     private String File;
     private String DealerId;
 
+
+    public DealerImage() {
+    }
+
+    public DealerImage(String documentId, String file, String dealerId) {
+        this.DocumentId = documentId;
+        this.File = file;
+        this.DealerId = dealerId;
+    }
+
+
     public String getDocumentId() {
         return DocumentId;
     }

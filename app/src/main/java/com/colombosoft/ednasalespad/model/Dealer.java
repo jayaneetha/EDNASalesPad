@@ -1,5 +1,6 @@
 package com.colombosoft.ednasalespad.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,6 +36,10 @@ public class Dealer {
     private String AddedBy;
     private String LastModified;
     private String LastModifiedBy;
+
+    public Dealer() {
+        DealerImages = new ArrayList<DealerImage>();
+    }
 
     public String getDealerId() {
         return DealerId;
@@ -258,5 +263,9 @@ public class Dealer {
 
     public void setName(String name) {
         Name = name;
+    }
+
+    public void addDealerImage(DealerImage dealerImage) {
+        this.DealerImages.add(dealerImage);
     }
 }

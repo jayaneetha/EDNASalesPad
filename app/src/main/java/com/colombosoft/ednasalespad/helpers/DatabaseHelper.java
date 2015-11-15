@@ -25,6 +25,7 @@ import com.colombosoft.ednasalespad.db_tables.RouteTable;
 import com.colombosoft.ednasalespad.db_tables.TeritoryTable;
 import com.colombosoft.ednasalespad.db_tables.UserTable;
 import com.colombosoft.ednasalespad.model.Dealer;
+import com.colombosoft.ednasalespad.model.DealerClass;
 import com.colombosoft.ednasalespad.model.Route;
 
 import java.util.ArrayList;
@@ -35,20 +36,18 @@ import java.util.List;
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static DatabaseHelper databaseHelper;
-    //private static SQLiteDatabase sqLiteDatabase;
-
     private static final String TAG = "DatabaseHelper";
-
+    //private static SQLiteDatabase sqLiteDatabase;
     private static final String DATABASE_NAME = "edna_sales_pad_db";
+    private static DatabaseHelper databaseHelper;
 
     private DatabaseHelper(Context context) {
-        super(context,DATABASE_NAME, null, 1);
+        super(context, DATABASE_NAME, null, 1);
     }
 
-    public static synchronized DatabaseHelper getInstance( Context context){
+    public static synchronized DatabaseHelper getInstance(Context context) {
 
-        if(databaseHelper == null) {
+        if (databaseHelper == null) {
             return new DatabaseHelper(context);
         }
         return databaseHelper;
@@ -76,7 +75,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(UserTable.USER_TABLE);
         db.execSQL(AttendanceTable.ATTENDANCE_TABLE);
 
-        Log.d(TAG,"********************* DatabaseHelper.onCreate() method end *************************");
+        Log.d(TAG, "********************* DatabaseHelper.onCreate() method end *************************");
     }
 
     @Override
@@ -88,34 +87,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public void clearAllTables(){
+    public void clearAllTables() {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        db.execSQL("drop table if exists "+AgentTable.AGENT_TABLE_NAME);
-        db.execSQL("drop table if exists "+AreaTable.AREA_TABLE_NAME);
-        db.execSQL("drop table if exists "+BankBranchTable.BANK_BRANCH_TABLE_NAME);
-        db.execSQL("drop table if exists "+BankTable.BANK_TABLE_NAME);
-        db.execSQL("drop table if exists "+DealerClassTable.DEALER_CLASS_TABLE_NAME);
-        db.execSQL("drop table if exists "+DealerImageTable.DEALER_IMAGE_TABLE_NAME);
-        db.execSQL("drop table if exists "+DealerTable.DEALER_TABLE_NAME);
-        db.execSQL("drop table if exists "+ProductBatchTable.PRODUCT_BATCH_TABLE_NAME);
-        db.execSQL("drop table if exists "+ProductBrandTable.PRODUCT_BRAND_TABLE_NAME);
-        db.execSQL("drop table if exists "+ProductCategoryTable.PRODUCT_CATEGORY_TABLE_NAME);
-        db.execSQL("drop table if exists "+ProductLevelTable.PRODUCT_LEVEL_TABLE_NAME);
-        db.execSQL("drop table if exists "+ProductTable.PRODUCT_TABLE_NAME);
-        db.execSQL("drop table if exists "+ProductUnitTable.PRODUCT_UNIT_TABLE_NAME);
-        db.execSQL("drop table if exists "+RegionTable.REGION_TABLE_NAME);
-        db.execSQL("drop table if exists "+RouteTable.ROUTE_TABLE_NAME);
-        db.execSQL("drop table if exists "+TeritoryTable.TERITORY_TABLE_NAME);
-        db.execSQL("drop table if exists "+UserTable.USER_TABLE_NAME);
-        db.execSQL("drop table if exists "+AttendanceTable.ATTENDANCE_TABLE_NAME);
+        db.execSQL("drop table if exists " + AgentTable.AGENT_TABLE_NAME);
+        db.execSQL("drop table if exists " + AreaTable.AREA_TABLE_NAME);
+        db.execSQL("drop table if exists " + BankBranchTable.BANK_BRANCH_TABLE_NAME);
+        db.execSQL("drop table if exists " + BankTable.BANK_TABLE_NAME);
+        db.execSQL("drop table if exists " + DealerClassTable.DEALER_CLASS_TABLE_NAME);
+        db.execSQL("drop table if exists " + DealerImageTable.DEALER_IMAGE_TABLE_NAME);
+        db.execSQL("drop table if exists " + DealerTable.DEALER_TABLE_NAME);
+        db.execSQL("drop table if exists " + ProductBatchTable.PRODUCT_BATCH_TABLE_NAME);
+        db.execSQL("drop table if exists " + ProductBrandTable.PRODUCT_BRAND_TABLE_NAME);
+        db.execSQL("drop table if exists " + ProductCategoryTable.PRODUCT_CATEGORY_TABLE_NAME);
+        db.execSQL("drop table if exists " + ProductLevelTable.PRODUCT_LEVEL_TABLE_NAME);
+        db.execSQL("drop table if exists " + ProductTable.PRODUCT_TABLE_NAME);
+        db.execSQL("drop table if exists " + ProductUnitTable.PRODUCT_UNIT_TABLE_NAME);
+        db.execSQL("drop table if exists " + RegionTable.REGION_TABLE_NAME);
+        db.execSQL("drop table if exists " + RouteTable.ROUTE_TABLE_NAME);
+        db.execSQL("drop table if exists " + TeritoryTable.TERITORY_TABLE_NAME);
+        db.execSQL("drop table if exists " + UserTable.USER_TABLE_NAME);
+        db.execSQL("drop table if exists " + AttendanceTable.ATTENDANCE_TABLE_NAME);
 
         Log.d(TAG, "****************** DatabaseHelper.clearAllTables() method end ************************");
 
     }
 
-    public List<Route> getAllRoutes(){
+    public List<Route> getAllRoutes() {
 
         SQLiteDatabase db = this.getReadableDatabase();
         String selectAllRoutes = "SELECT RouteId,RouteName FROM tbl_route;";
@@ -139,24 +138,43 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public List<Dealer> getAllDealers(){
+    public List<Dealer> getAllDealers() {
 
         SQLiteDatabase db = this.getWritableDatabase();
         String selectAllDealers = "SELECT DealerId,RouteId,ContactPerson FROM tbl_dealer";
 
         List<Dealer> dealers = new ArrayList<Dealer>();
-        Cursor dealerCursor = db.rawQuery(selectAllDealers,null);
+        Cursor dealerCursor = db.rawQuery(selectAllDealers, null);
 
-        if (dealerCursor.moveToFirst()){
-            do{
+        if (dealerCursor.moveToFirst()) {
+            do {
                 Dealer dealer = new Dealer();
                 dealer.setDealerId(dealerCursor.getString(0));
                 dealer.setRouteId(dealerCursor.getInt(1));
                 dealers.add(dealer);
-            }while (dealerCursor.moveToNext());
+            } while (dealerCursor.moveToNext());
         }
 
         return dealers;
+    }
+
+    public List<DealerClass> getDealerClasses() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String selectAllDealerClasses = "SELECT DealerClassId, DealerClassName FROM " + DealerClassTable.DEALER_CLASS_TABLE + ";";
+
+        List<DealerClass> dealerClassList = new ArrayList<DealerClass>();
+        Cursor dealerClassCursor = db.rawQuery(selectAllDealerClasses, null);
+
+        if (dealerClassCursor.moveToFirst()) {
+            do {
+                DealerClass dealerClass = new DealerClass();
+                dealerClass.setDealerClassId(dealerClassCursor.getInt(0));
+                dealerClass.setDealerClassName(dealerClassCursor.getString(1));
+                dealerClassList.add(dealerClass);
+            } while (dealerClassCursor.moveToNext());
+        }
+
+        return dealerClassList;
     }
 
 

@@ -1,0 +1,543 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/add_dealer_toolbar"
+        layout="@layout/toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_color">
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/add_dealer_toolbar"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:focusableInTouchMode="false"
+                android:orientation="vertical">
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:stretchColumns="2">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/add_dealer_tv_name_txt"
+                            android:layout_width="140dp"
+                            android:layout_height="30dp"
+                            android:layout_column="1"
+                            android:gravity="center_vertical"
+                            android:text="DEALER NAME"
+                            android:textSize="18sp" />
+
+                        <EditText
+                            android:id="@+id/add_dealer_et_name"
+                            android:layout_width="match_parent"
+                            android:layout_column="2"
+                            android:layout_marginLeft="16dp"
+                            android:gravity="center_vertical"
+                            android:singleLine="true"
+                            android:textStyle="bold" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/add_dealer_tv_address_txt"
+                            android:layout_width="140dp"
+                            android:layout_height="30dp"
+                            android:layout_column="1"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_vertical"
+                            android:text="ADDRESS"
+                            android:textSize="18sp" />
+
+                        <EditText
+                            android:id="@+id/add_dealer_et_address"
+                            android:layout_width="match_parent"
+                            android:layout_column="2"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_vertical"
+                            android:paddingRight="16dp"
+                            android:singleLine="true"
+                            android:textStyle="bold" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/add_dealer_tv_district_txt"
+                            android:layout_width="140dp"
+                            android:layout_height="30dp"
+                            android:layout_column="1"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_vertical"
+                            android:text="DISTRICT"
+                            android:textSize="18sp" />
+
+                        <EditText
+                            android:id="@+id/add_dealer_et_district"
+                            android:layout_width="match_parent"
+                            android:layout_column="2"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_vertical"
+                            android:paddingRight="16dp"
+                            android:singleLine="true"
+                            android:textStyle="bold" />
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/add_dealer_tv_dsdivision_txt"
+                            android:layout_width="140dp"
+                            android:layout_height="30dp"
+                            android:layout_column="1"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_vertical"
+                            android:text="DS DIVISION"
+                            android:textSize="18sp" />
+
+                        <EditText
+                            android:id="@+id/add_dealer_et_dsdivision"
+                            android:layout_width="match_parent"
+                            android:layout_column="2"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_vertical"
+                            android:paddingRight="16dp"
+                            android:singleLine="true"
+                            android:textStyle="bold" />
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/add_dealer_tv_gndivision_txt"
+                            android:layout_width="140dp"
+                            android:layout_height="30dp"
+                            android:layout_column="1"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_vertical"
+                            android:text="GN DIVISION"
+                            android:textSize="18sp" />
+
+                        <EditText
+                            android:id="@+id/add_dealer_et_gndivision"
+                            android:layout_width="match_parent"
+                            android:layout_column="2"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_vertical"
+                            android:paddingRight="16dp"
+                            android:singleLine="true"
+                            android:textStyle="bold" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/add_dealer_tv_class_txt"
+                            android:layout_width="140dp"
+                            android:layout_height="30dp"
+                            android:layout_column="1"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_vertical"
+                            android:text="CLASS"
+                            android:textSize="18sp" />
+
+                        <Spinner
+                            android:id="@+id/add_dealer_sp_class"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_column="2"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_vertical"
+                            android:textStyle="bold" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/add_dealer_tv_open_balance_txt"
+                            android:layout_width="140dp"
+                            android:layout_height="30dp"
+                            android:layout_column="1"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_vertical"
+                            android:text="OPEN BALANCE"
+                            android:textSize="18sp" />
+
+                        <EditText
+                            android:id="@+id/add_dealer_et_open_balance"
+                            android:layout_width="match_parent"
+                            android:layout_column="2"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_vertical"
+                            android:paddingRight="16dp"
+                            android:singleLine="true"
+                            android:inputType="number"
+                            android:textStyle="bold" />
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/add_dealer_tv_contact_person_txt"
+                            android:layout_width="140dp"
+                            android:layout_height="30dp"
+                            android:layout_column="1"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_vertical"
+                            android:text="CONTACT PERSON"
+                            android:textSize="16sp" />
+
+                        <EditText
+                            android:id="@+id/add_dealer_et_contact_person"
+                            android:layout_width="match_parent"
+                            android:layout_column="2"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_vertical"
+                            android:paddingRight="16dp"
+                            android:singleLine="true"
+                            android:textStyle="bold" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/add_dealer_tv_contact_txt"
+                            android:layout_width="140dp"
+                            android:layout_height="30dp"
+                            android:layout_column="1"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_vertical"
+                            android:text="CONTACT NO"
+                            android:textSize="18sp" />
+
+                        <LinearLayout
+                            android:layout_column="2"
+                            android:orientation="vertical">
+
+                            <EditText
+                                android:id="@+id/add_dealer_et_contact_fixed"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="16dp"
+                                android:layout_marginTop="10dp"
+                                android:gravity="center_vertical"
+                                android:hint="Fixed Line"
+                                android:singleLine="true"
+                                android:inputType="phone"
+                                android:textStyle="bold" />
+
+                            <EditText
+                                android:id="@+id/add_dealer_et_contact_mob"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="16dp"
+                                android:gravity="center_vertical"
+                                android:hint="Mobile"
+                                android:singleLine="true"
+                                android:inputType="phone"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/add_dealer_tv_location_txt"
+                            android:layout_width="140dp"
+                            android:layout_height="30dp"
+                            android:layout_column="1"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_vertical"
+                            android:text="LOCATION"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/add_dealer_tv_location"
+                            android:layout_width="match_parent"
+                            android:layout_column="2"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_vertical"
+                            android:paddingRight="16dp"
+                            android:singleLine="true"
+                            android:textStyle="bold" />
+                    </TableRow>
+
+                </TableLayout>
+            </LinearLayout>
+
+            <TableLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <TableRow>
+
+                    <RelativeLayout android:layout_column="1">
+
+                        <TextView
+                            android:id="@+id/add_dealer_tv_front_image_txt"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:text="SHOP FRONT VIEW"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/add_dealer_iv_front_image_view"
+                            android:layout_width="250dp"
+                            android:layout_height="200dp"
+                            android:layout_below="@+id/add_dealer_tv_front_image_txt"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:adjustViewBounds="false"
+                            android:visibility="invisible" />
+
+                        <RelativeLayout
+                            android:id="@+id/add_dealer_rel_front_image_view_na"
+                            android:layout_width="250dp"
+                            android:layout_height="200dp"
+                            android:layout_below="@+id/add_dealer_tv_front_image_txt"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:background="@android:color/darker_gray"
+                            android:visibility="visible">
+
+                            <TextView
+                                android:id="@+id/add_dealer_tv_front_image_view_na"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:gravity="center"
+                                android:text="NO IMAGE AVAILABLE\nCLICK HERE TO CAPTURE"
+                                android:textColor="@color/error_red"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+                    </RelativeLayout>
+
+                    <RelativeLayout android:layout_column="2">
+
+                        <TextView
+                            android:id="@+id/add_dealer_tv_show_image_txt"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:text="SHOW CASE"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/add_dealer_iv_show_image_view"
+                            android:layout_width="300sp"
+                            android:layout_height="200dp"
+                            android:layout_below="@+id/add_dealer_tv_show_image_txt"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:visibility="invisible" />
+
+                        <RelativeLayout
+                            android:id="@+id/add_dealer_rel_show_image_view_na"
+                            android:layout_width="250dp"
+                            android:layout_height="200dp"
+                            android:layout_below="@+id/add_dealer_tv_show_image_txt"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:background="@android:color/darker_gray">
+
+                            <TextView
+                                android:id="@+id/add_dealer_tv_show_image_view_na"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:gravity="center"
+                                android:text="NO IMAGE AVAILABLE\nCLICK HERE TO CAPTURE"
+                                android:textColor="@color/error_red"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+                    </RelativeLayout>
+                </TableRow>
+
+                <TableRow>
+
+                    <RelativeLayout android:layout_column="1">
+
+                        <TextView
+                            android:id="@+id/add_dealer_tv_promotion_1_txt"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:text="PROMOTION ONE"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/add_dealer_iv_promotion_1_view"
+                            android:layout_width="250dp"
+                            android:layout_height="200dp"
+                            android:layout_below="@+id/add_dealer_tv_promotion_1_txt"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:visibility="invisible" />
+
+                        <RelativeLayout
+                            android:id="@+id/add_dealer_rel_promotion_1_na"
+                            android:layout_width="250dp"
+                            android:layout_height="200dp"
+                            android:layout_below="@+id/add_dealer_tv_promotion_1_txt"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:background="@android:color/darker_gray">
+
+                            <TextView
+                                android:id="@+id/add_dealer_tv_promotion_1_na"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:gravity="center"
+                                android:text="NO IMAGE AVAILABLE\nCLICK HERE TO CAPTURE"
+                                android:textColor="@color/error_red"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+                    </RelativeLayout>
+
+                    <RelativeLayout android:layout_column="2">
+
+                        <TextView
+                            android:id="@+id/add_dealer_tv_promotion_2_txt"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:text="PROMOTION TWO"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/add_dealer_iv_promotion_2_view"
+                            android:layout_width="300sp"
+                            android:layout_height="200dp"
+                            android:layout_below="@+id/add_dealer_tv_promotion_2_txt"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:visibility="invisible" />
+
+                        <RelativeLayout
+                            android:id="@+id/add_dealer_rel_promotion_2_na"
+                            android:layout_width="250dp"
+                            android:layout_height="200dp"
+                            android:layout_below="@+id/add_dealer_tv_promotion_2_txt"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:background="@android:color/darker_gray">
+
+                            <TextView
+                                android:id="@+id/add_dealer_tv_promotion_2_na"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:gravity="center"
+                                android:text="NO IMAGE AVAILABLE\nCLICK HERE TO CAPTURE"
+                                android:textColor="@color/error_red"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+                    </RelativeLayout>
+                </TableRow>
+            </TableLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/add_dealer_btn_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/selectable_button"
+                    android:padding="15dp"
+                    android:text="Add"
+                    android:textColor="@color/white" />
+
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/add_dealer_iv_show_image_view">
+
+            </View>
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

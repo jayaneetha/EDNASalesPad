@@ -12,6 +12,15 @@ public class DealerClass {
     private String LastModified;
     private String LastModifiedBy;
 
+    public DealerClass() {
+    }
+
+    public DealerClass(int dealerClassId, String dealerClassName) {
+        DealerClassId = dealerClassId;
+        DealerClassName = dealerClassName;
+    }
+
+
     public int getDealerClassId() {
         return DealerClassId;
     }

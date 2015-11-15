@@ -8,6 +8,14 @@ public class GeoCordinates {
     private double Lat;
     private double Long;
 
+    public GeoCordinates() {
+    }
+
+    public GeoCordinates(double aLong, double lat) {
+        Long = aLong;
+        Lat = lat;
+    }
+
     public double getLat() {
         return Lat;
     }

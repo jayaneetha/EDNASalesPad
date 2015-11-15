@@ -23,7 +23,6 @@ import com.colombosoft.ednasalespad.libs.ProgressWheel;
 import com.colombosoft.ednasalespad.model.Attendance;
 import com.colombosoft.ednasalespad.utilities.NetworkUtility;
 import com.colombosoft.ednasalespad.utilities.RequestType;
-import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -108,6 +107,15 @@ public class AgentAttendanceActivity extends Activity {
         dateFormat = new SimpleDateFormat("hh:mm:ss aaa", Locale.getDefault());
 
         tvEndHeader.setEnabled(false);
+
+        //TODO: Remove on production
+        Button testButton = (Button) findViewById(R.id.test_button);
+        testButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(AgentAttendanceActivity.this, AddDealerActivity.class));
+            }
+        });
 
 //        if (attendance != null && isDayStarted) {
 //            tvEndHeader.setEnabled(true);
@@ -220,7 +228,7 @@ public class AgentAttendanceActivity extends Activity {
                 attendance.setType(1);
 
                 AttendanceTable attendanceTable = new AttendanceTable();
-                attendanceTable.insertAttendance(databaseHelper.getWritableDatabase(),attendance);
+                attendanceTable.insertAttendance(databaseHelper.getWritableDatabase(), attendance);
                 Intent intent = new Intent(AgentAttendanceActivity.this, RouteActivity.class);
                 startActivity(intent);
 
@@ -454,7 +462,6 @@ public class AgentAttendanceActivity extends Activity {
                         + ","
                         + String.valueOf(finalLocation.getLongitude())
                         + "&sensor=true", RequestType.GET_REQUEST);
-
 
 
                 if (response != null && response.length() > 0) {

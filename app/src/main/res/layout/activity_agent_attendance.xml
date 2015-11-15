@@ -9,6 +9,13 @@
         android:id="@+id/mark_attendance_toolbar"
         layout="@layout/toolbar"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/test_button"
+        android:text="Go to Add Dealer"
+        android:layout_below="@+id/mark_attendance_toolbar" />
+
     <TextView
         android:id="@+id/mark_attendance_tv_date"
         android:layout_width="fill_parent"
