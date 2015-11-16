@@ -26,6 +26,7 @@ import com.colombosoft.ednasalespad.db_tables.TeritoryTable;
 import com.colombosoft.ednasalespad.db_tables.UserTable;
 import com.colombosoft.ednasalespad.model.Dealer;
 import com.colombosoft.ednasalespad.model.DealerClass;
+import com.colombosoft.ednasalespad.model.GeoCordinates;
 import com.colombosoft.ednasalespad.model.Route;
 
 import java.util.ArrayList;
@@ -151,6 +152,51 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 Dealer dealer = new Dealer();
                 dealer.setDealerId(dealerCursor.getString(0));
                 dealer.setRouteId(dealerCursor.getInt(1));
+                dealers.add(dealer);
+            } while (dealerCursor.moveToNext());
+        }
+
+        return dealers;
+    }
+
+    /**
+     * Created by thejan. Should replace the getAllDealers() method by this.
+     * @return
+     */
+    public List<Dealer> getAllDealersInfo() {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        String selectAllDealers = "SELECT DealerId, `Name`, Address, District, DSDivision, GNDivision, " +
+                "DealerClassId, RouteId, OpenBalance, ContactPerson, LandNumber, MobileNumber, Status, " +
+                "AccountOpendate, Blocked, CreditLimit, OutstandingBalance, Comments, ShowcaseGiven, " +
+                "ShowcaseGivendate, AgentLocation_Lat, AgentLocation_Long, AddedDate, AddedBy, " +
+                "LastModified, LastModifiedBy FROM tbl_dealer";
+
+        List<Dealer> dealers = new ArrayList<Dealer>();
+        Cursor dealerCursor = db.rawQuery(selectAllDealers, null);
+
+        if (dealerCursor.moveToFirst()) {
+            do {
+                Dealer dealer = new Dealer();
+                dealer.setDealerId(dealerCursor.getString(0));
+                dealer.setName(dealerCursor.getString(1));
+                dealer.setAddress(dealerCursor.getString(2));
+                dealer.setDistrict(dealerCursor.getString(3));
+                dealer.setDSDivision(dealerCursor.getString(4));
+                dealer.setGNDivision(dealerCursor.getString(5));
+                dealer.setAccountOpendate(dealerCursor.getString(6));
+                dealer.setBlocked(Boolean.getBoolean(dealerCursor.getString(7)));
+                dealer.setCreditLimit(dealerCursor.getDouble(8));
+                dealer.setOutstandingBalance(dealerCursor.getDouble(9));
+                dealer.setComments(dealerCursor.getString(10));
+                dealer.setShowcaseGiven(Boolean.getBoolean(dealerCursor.getString(11)));
+                dealer.setShowcaseGivendate(dealerCursor.getString(12));
+                dealer.setGeoCordinates(new GeoCordinates(dealerCursor.getLong(13), dealerCursor.getLong(14)));
+                dealer.setAddedDate(dealerCursor.getString(15));
+                dealer.setAddedBy(dealerCursor.getString(16));
+                dealer.setLastModified(dealerCursor.getString(17));
+                dealer.setLastModifiedBy(dealerCursor.getString(18));
+
                 dealers.add(dealer);
             } while (dealerCursor.moveToNext());
         }

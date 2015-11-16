@@ -204,9 +204,9 @@
                             android:layout_marginLeft="16dp"
                             android:layout_marginTop="10dp"
                             android:gravity="center_vertical"
+                            android:inputType="number"
                             android:paddingRight="16dp"
                             android:singleLine="true"
-                            android:inputType="number"
                             android:textStyle="bold" />
                     </TableRow>
                     <TableRow
@@ -261,8 +261,8 @@
                                 android:layout_marginTop="10dp"
                                 android:gravity="center_vertical"
                                 android:hint="Fixed Line"
-                                android:singleLine="true"
                                 android:inputType="phone"
+                                android:singleLine="true"
                                 android:textStyle="bold" />
 
                             <EditText
@@ -272,8 +272,8 @@
                                 android:layout_marginLeft="16dp"
                                 android:gravity="center_vertical"
                                 android:hint="Mobile"
-                                android:singleLine="true"
                                 android:inputType="phone"
+                                android:singleLine="true"
                                 android:textStyle="bold" />
 
                         </LinearLayout>
@@ -524,6 +524,16 @@
                     android:background="@drawable/selectable_button"
                     android:padding="15dp"
                     android:text="Add"
+                    android:textColor="@color/white" />
+<Button
+                    android:id="@+id/add_dealer_btn_add_test"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/selectable_button"
+                    android:padding="15dp"
+                    android:text="Test"
                     android:textColor="@color/white" />
 
 

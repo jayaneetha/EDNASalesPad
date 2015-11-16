@@ -35,6 +35,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class AddDealerActivity extends AppCompatActivity {
 
@@ -115,8 +116,13 @@ public class AddDealerActivity extends AppCompatActivity {
 //        routeId = pref.getSelectedRoute().getRouteId();
         //TODO: remove the following lines
         routeId = 1;
-        String dealerId = "1";
+
+        UUID uniqueId = UUID.randomUUID();
+        String dealerId = uniqueId.toString();
+
         dealer.setDealerId(dealerId);
+
+        Log.i(LOG_TAG,dealer.getDealerId());
 
         try {
             gpsActive = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -221,7 +227,8 @@ public class AddDealerActivity extends AppCompatActivity {
         add_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(finalLocation!=null) {
+                if (finalLocation != null) {
+
                     dealer.setName(dealerName.getText().toString());
                     dealer.setAddress(address.getText().toString());
                     dealer.setDistrict(district.getText().toString());
@@ -233,15 +240,32 @@ public class AddDealerActivity extends AppCompatActivity {
                     GeoCordinates geoCordinates = new GeoCordinates(finalLocation.getLongitude(), finalLocation.getLatitude());
                     dealer.setGeoCordinates(geoCordinates);
 
-                    DatabaseHelper databaseHelper = DatabaseHelper.getInstance(AddDealerActivity.this);
                     SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
                     List<Dealer> tempDealerList = new ArrayList<Dealer>();
                     tempDealerList.add(dealer);
                     (new StoreDealer()).storeDealerListInDB(sqLiteDatabase, tempDealerList);
                     Toast.makeText(AddDealerActivity.this, "Dealer Stored", Toast.LENGTH_SHORT).show();
                     finish();
-                }else{
+                } else {
                     Toast.makeText(AddDealerActivity.this, "Please wait. Application is fetching the Location", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        Button add_test = (Button) findViewById(R.id.add_dealer_btn_add_test);
+        add_test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
+
+//                sqLiteDatabase.delete("tbl_dealer", null, null);
+
+                List<Dealer> dealersListTest = databaseHelper.getAllDealersInfo();
+                Log.i(LOG_TAG, String.valueOf(dealersListTest.size()));
+                for (int i = 0; i < dealersListTest.size(); i++) {
+                    Dealer dealer_ = dealersListTest.get(i);
+                    Log.v(LOG_TAG, dealer_.getDealerId());
+                    //Log.v(LOG_TAG, dealer_.getName());
                 }
             }
         });
