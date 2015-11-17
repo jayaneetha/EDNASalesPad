@@ -16,6 +16,19 @@ public class Region {
     private String LastModifiedBy;
     private List<Area> Areas;
 
+    public Region() {
+    }
+
+    public Region(int regionId, String regionName, String regionCode, String addedDate, String addedBy, String lastModified, String lastModifiedBy) {
+        RegionId = regionId;
+        RegionName = regionName;
+        RegionCode = regionCode;
+        AddedDate = addedDate;
+        AddedBy = addedBy;
+        LastModified = lastModified;
+        LastModifiedBy = lastModifiedBy;
+    }
+
     public int getRegionId() {
         return RegionId;
     }

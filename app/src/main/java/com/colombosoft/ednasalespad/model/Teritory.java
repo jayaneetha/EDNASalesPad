@@ -15,6 +15,21 @@ public class Teritory {
     private String LastModifiedBy;
     private Area Area;
 
+    public Teritory() {
+    }
+
+    public Teritory(int teritoryId, String teritoryName, String teritoryCode, int areaId, String addedDate, String addedBy, String lastModified, String lastModifiedBy, com.colombosoft.ednasalespad.model.Area area) {
+        TeritoryId = teritoryId;
+        TeritoryName = teritoryName;
+        TeritoryCode = teritoryCode;
+        AreaId = areaId;
+        AddedDate = addedDate;
+        AddedBy = addedBy;
+        LastModified = lastModified;
+        LastModifiedBy = lastModifiedBy;
+        Area = area;
+    }
+
     public int getTeritoryId() {
         return TeritoryId;
     }

@@ -8,37 +8,36 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.colombosoft.ednasalespad.R;
-import com.colombosoft.ednasalespad.model.DealerClass;
+import com.colombosoft.ednasalespad.model.Route;
 
 import java.util.List;
 
 /**
- * Created by Jayaneetha on 10/13/15.
+ * Created by Jayaneetha on 11/17/15.
  */
-public class DealerClassAdapter extends BaseAdapter {
+public class RouteAdapter extends BaseAdapter {
 
     private static LayoutInflater layoutInflater = null;
-    List<DealerClass> DealerClassList;
+    List<Route> routeList;
 
-    public DealerClassAdapter(Context context, List<DealerClass> DealerClass) {
-        this.DealerClassList = DealerClass;
+    public RouteAdapter(Context context, List<Route> routes) {
+        this.routeList = routes;
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
     }
 
     @Override
     public int getCount() {
-        return DealerClassList.size();
+        return routeList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return DealerClassList.get(position);
+        return routeList.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return DealerClassList.get(position).getDealerClassId();
+        return routeList.get(position).getRouteId();
     }
 
     @Override
@@ -46,12 +45,12 @@ public class DealerClassAdapter extends BaseAdapter {
         Holder holder = new Holder();
 
         View rowView = layoutInflater.inflate(R.layout.spinner_item, null);
-        holder.dealer_class = (TextView) rowView.findViewById(R.id.textViewSpinner);
-        holder.dealer_class.setText(DealerClassList.get(position).getDealerClassName());
+        holder.route = (TextView) rowView.findViewById(R.id.textViewSpinner);
+        holder.route.setText(routeList.get(position).getRouteName());
         return rowView;
     }
 
     public class Holder {
-        TextView dealer_class;
+        TextView route;
     }
 }

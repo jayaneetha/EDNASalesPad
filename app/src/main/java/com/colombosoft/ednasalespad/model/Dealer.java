@@ -41,6 +41,7 @@ public class Dealer {
         DealerImages = new ArrayList<DealerImage>();
     }
 
+
     public String getDealerId() {
         return DealerId;
     }
@@ -267,5 +268,21 @@ public class Dealer {
 
     public void addDealerImage(DealerImage dealerImage) {
         this.DealerImages.add(dealerImage);
+    }
+
+    @Override
+    public String toString() {
+        String output = "Dealer Details";
+        output += "\nID: " + this.getDealerId();
+        output += "\nName: " + this.getName();
+        output += "\nAddress: " + this.getAddress();
+        output += "\nDistrict: " + this.getDistrict();
+        output += "\nDSDivision: " + this.getDSDivision();
+        output += "\nGNDivision: " + this.getGNDivision();
+        output += "\nDealerClassID: " + this.getDealerClassId();
+        output += "\nRouteID: " + this.getRouteId();
+        output += "\nOpen Balance: " + this.getOpenBalance();
+        return output;
+
     }
 }

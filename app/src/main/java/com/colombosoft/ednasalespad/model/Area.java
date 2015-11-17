@@ -15,6 +15,22 @@ public class Area {
     private String LastModifiedBy;
     private Region Region;
 
+    public Area(String areaName, int areaId, String areaCode, int regionId, String addedDate, String addedBy, String lastModified, String lastModifiedBy, com.colombosoft.ednasalespad.model.Region region) {
+        AreaName = areaName;
+        AreaId = areaId;
+        AreaCode = areaCode;
+        RegionId = regionId;
+        AddedDate = addedDate;
+        AddedBy = addedBy;
+        LastModified = lastModified;
+        LastModifiedBy = lastModifiedBy;
+        Region = region;
+    }
+
+    public Area() {
+
+    }
+
     public int getAreaId() {
         return AreaId;
     }

@@ -15,6 +15,22 @@ public class Route {
     private String LastModifiedBy;
     private Teritory Teritory;
 
+    public Route() {
+    }
+
+    public Route(int routeId, String routeName, String routeCode, int teritoryId, String addedDate, String addedBy, String lastModified, String lastModifiedBy, com.colombosoft.ednasalespad.model.Teritory teritory) {
+        RouteId = routeId;
+        RouteName = routeName;
+        RouteCode = routeCode;
+        TeritoryId = teritoryId;
+        AddedDate = addedDate;
+        AddedBy = addedBy;
+        LastModified = lastModified;
+        LastModifiedBy = lastModifiedBy;
+        Teritory = teritory;
+    }
+
+
     public int getRouteId() {
         return RouteId;
     }

@@ -24,12 +24,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.colombosoft.ednasalespad.adapter.DealerClassAdapter;
+import com.colombosoft.ednasalespad.adapter.RouteAdapter;
 import com.colombosoft.ednasalespad.db_transaction.StoreDealer;
 import com.colombosoft.ednasalespad.helpers.DatabaseHelper;
 import com.colombosoft.ednasalespad.model.Dealer;
 import com.colombosoft.ednasalespad.model.DealerClass;
 import com.colombosoft.ednasalespad.model.DealerImage;
 import com.colombosoft.ednasalespad.model.GeoCordinates;
+import com.colombosoft.ednasalespad.model.Route;
+import com.colombosoft.ednasalespad.model.Teritory;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,11 +52,12 @@ public class AddDealerActivity extends AppCompatActivity {
     EditText dealerName, address, district, dsDivision, gnDivision, openBalance, contactPerson, fixedLine, mobile;
     TextView location_tv;
     Button add_btn;
-    Spinner dealerClass;
+    Spinner dealerClass, route;
     ImageView shopFront, showcase, promotion_1, promotion_2;
     RelativeLayout shopFrontNA, showcaseNA, promotion_1NA, promotion_2NA;
 
     List<DealerClass> dealerClassList;
+    List<Route> routeList;
     Location finalLocation;
     LocationManager locationManager;
     int routeId;
@@ -83,6 +87,14 @@ public class AddDealerActivity extends AppCompatActivity {
         dealerClassList.add(new DealerClass(3, "Three"));
         dealerClassList.add(new DealerClass(4, "Four"));
 
+        routeList = new ArrayList<Route>();
+        routeList.add(new Route(1, "Route1", "RC1", 1, "2015-02-02", "123", "M1", "1233", new Teritory()));
+        routeList.add(new Route(2, "Route2", "RC1", 1, "2015-02-02", "123", "M1", "1233", new Teritory()));
+        routeList.add(new Route(3, "Route3", "RC1", 1, "2015-02-02", "123", "M1", "1233", new Teritory()));
+        routeList.add(new Route(4, "Route4", "RC1", 1, "2015-02-02", "123", "M1", "1233", new Teritory()));
+        routeList.add(new Route(5, "Route5", "RC1", 1, "2015-02-02", "123", "M1", "1233", new Teritory()));
+
+
         dealerName = (EditText) findViewById(R.id.add_dealer_et_name);
         address = (EditText) findViewById(R.id.add_dealer_et_address);
         district = (EditText) findViewById(R.id.add_dealer_et_district);
@@ -96,6 +108,9 @@ public class AddDealerActivity extends AppCompatActivity {
         add_btn = (Button) findViewById(R.id.add_dealer_btn_add);
 
         location_tv = (TextView) findViewById(R.id.add_dealer_tv_location);
+
+        dealerClass = (Spinner) findViewById(R.id.add_dealer_sp_class);
+        route = (Spinner) findViewById(R.id.add_dealer_sp_route);
 
         shopFront = (ImageView) findViewById(R.id.add_dealer_iv_front_image_view);
         showcase = (ImageView) findViewById(R.id.add_dealer_iv_show_image_view);
@@ -114,15 +129,13 @@ public class AddDealerActivity extends AppCompatActivity {
         dealer = new Dealer();
 
 //        routeId = pref.getSelectedRoute().getRouteId();
-        //TODO: remove the following lines
-        routeId = 1;
 
         UUID uniqueId = UUID.randomUUID();
         String dealerId = uniqueId.toString();
 
         dealer.setDealerId(dealerId);
 
-        Log.i(LOG_TAG,dealer.getDealerId());
+        Log.i(LOG_TAG, dealer.getDealerId());
 
         try {
             gpsActive = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -137,8 +150,10 @@ public class AddDealerActivity extends AppCompatActivity {
 
         requestUpdates(); //request GPS Coordinates
 
-        dealerClass = (Spinner) findViewById(R.id.add_dealer_sp_class);
+        //populate Spinners
         dealerClass.setAdapter(new DealerClassAdapter(this, dealerClassList));
+        route.setAdapter(new RouteAdapter(this, routeList));
+
 
         //Click Listeners
         shopFrontNA.setOnClickListener(new View.OnClickListener() {
@@ -228,8 +243,8 @@ public class AddDealerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (finalLocation != null) {
-
                     dealer.setName(dealerName.getText().toString());
+                    dealer.setRouteId((int) route.getSelectedItemId());
                     dealer.setAddress(address.getText().toString());
                     dealer.setDistrict(district.getText().toString());
                     dealer.setDSDivision(dsDivision.getText().toString());
@@ -311,7 +326,7 @@ public class AddDealerActivity extends AppCompatActivity {
             switch (requestCode) {
                 case REQUEST_IMAGE_CAPTURE_FRONT:
                     //Front
-                    dealerImage = new DealerImage(String.valueOf(Math.random()), imageUri.toString(), dealer.getDealerId());
+                    dealerImage = new DealerImage(UUID.randomUUID().toString(), imageUri.toString(), dealer.getDealerId());
                     dealer.addDealerImage(dealerImage);
                     shopFront.setImageBitmap(bitmap);
                     shopFront.setVisibility(View.VISIBLE);
@@ -320,7 +335,7 @@ public class AddDealerActivity extends AppCompatActivity {
                 case REQUEST_IMAGE_CAPTURE_SHOWCASE:
                     //Showcase
                     //outlet.setShowcaseImageUri(imageUri.toString());
-                    dealerImage = new DealerImage(String.valueOf(Math.random()), imageUri.toString(), dealer.getDealerId());
+                    dealerImage = new DealerImage(UUID.randomUUID().toString(), imageUri.toString(), dealer.getDealerId());
                     dealer.addDealerImage(dealerImage);
                     showcase.setImageBitmap(bitmap);
                     showcase.setVisibility(View.VISIBLE);
@@ -329,7 +344,7 @@ public class AddDealerActivity extends AppCompatActivity {
                 case REQUEST_IMAGE_CAPTURE_PROMOTION_1:
                     //Promotion 1
                     //outlet.setPromotion1ImageUri(imageUri.toString());
-                    dealerImage = new DealerImage(String.valueOf(Math.random()), imageUri.toString(), dealer.getDealerId());
+                    dealerImage = new DealerImage(UUID.randomUUID().toString(), imageUri.toString(), dealer.getDealerId());
                     dealer.addDealerImage(dealerImage);
                     promotion_1.setImageBitmap(bitmap);
                     promotion_1.setVisibility(View.VISIBLE);
@@ -338,7 +353,7 @@ public class AddDealerActivity extends AppCompatActivity {
                 case REQUEST_IMAGE_CAPTURE_PROMOTION_2:
                     //Promotion 2
                     //outlet.setPromotion2ImageUri(imageUri.toString());
-                    dealerImage = new DealerImage(String.valueOf(Math.random()), imageUri.toString(), dealer.getDealerId());
+                    dealerImage = new DealerImage(UUID.randomUUID().toString(), imageUri.toString(), dealer.getDealerId());
                     dealer.addDealerImage(dealerImage);
                     promotion_2.setImageBitmap(bitmap);
                     promotion_2.setVisibility(View.VISIBLE);
